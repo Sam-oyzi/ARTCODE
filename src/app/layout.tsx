@@ -5,8 +5,16 @@ import { Providers } from './providers';
 import { ConditionalAppShell } from '@/components/conditional-app-shell';
 
 export const metadata: Metadata = {
-  title: 'ART CODE',
-  description: 'Create AR experiences for your business.',
+  title: 'Art Code - 3D Models Platform',
+  description: 'Upload, view, and share 3D models with AR technology. Create QR codes for interactive AR experiences.',
+  keywords: ['3D models', 'AR', 'augmented reality', 'QR codes', 'art', 'design'],
+  authors: [{ name: 'Sam-oyzi' }],
+  creator: 'Sam-oyzi',
+  publisher: 'Art Code',
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({
