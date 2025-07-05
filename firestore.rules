@@ -1,0 +1,38 @@
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users can only read and write their own profile data
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // QR Codes can only be accessed by their owner
+    match /qrCodes/{qrCodeId} {
+      allow read, write: if request.auth != null && 
+        resource.data.userId == request.auth.uid;
+      allow create: if request.auth != null && 
+        request.resource.data.userId == request.auth.uid;
+    }
+
+    // Model requests can only be managed by their creator
+    match /modelRequests/{requestId} {
+      allow read, write: if request.auth != null && 
+        resource.data.userId == request.auth.uid;
+      allow create: if request.auth != null && 
+        request.resource.data.userId == request.auth.uid;
+    }
+
+    // Merchandise is publicly readable for the store
+    match /merchandise/{merchId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    // Public models that are available to all users
+    match /publicModels/{modelId} {
+      allow read: if true;
+      allow write: if false; // Only admin can modify
+    }
+  }
+}
