@@ -268,9 +268,9 @@ export default function ProfilePage() {
       <div className="profile-theme w-full max-w-sm">
         <Card className="rounded-3xl border-none shadow-2xl text-foreground bg-background overflow-hidden relative">
           <Button asChild variant="ghost" size="icon" className="absolute top-4 left-4 md:hidden z-10 bg-foreground/10 hover:bg-foreground/20 backdrop-blur-sm">
-            <Link href="/">
+            <Link href={user ? "/dashboard" : "/"}>
               <ArrowLeft className="h-5 w-5" />
-              <span className="sr-only">Back to Dashboard</span>
+              <span className="sr-only">{user ? "Back to Dashboard" : "Back to Home"}</span>
             </Link>
           </Button>
           <CardContent className="p-4 flex flex-col items-center">
