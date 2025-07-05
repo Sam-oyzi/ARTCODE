@@ -43,6 +43,10 @@ next-env.d.ts
 *serviceAccount*.json
 encode-service-account.js
 
+# OAuth credentials
+credentials.json
+token.json
+
 # Temporary files
 *.tmp
 *.temp
