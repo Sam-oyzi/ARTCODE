@@ -95,7 +95,6 @@ export class GoogleDriveServiceAccount {
       console.error('Service account upload failed:', error);
       return {
         success: false,
-        fileName: file.name, // Assuming file name is available for error reporting
         error: error instanceof Error ? error.message : 'Upload failed'
       };
     }
