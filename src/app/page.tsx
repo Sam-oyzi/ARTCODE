@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Cpu, QrCode, Shirt, Sparkles } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import home1Image from '@/assets/home1.jpg';
 
 const features = [
   {
@@ -44,12 +45,12 @@ export default function LandingPage() {
               </div>
             </div>
             <Image
-              src="https://placehold.co/600x600.png"
+              src={home1Image}
               width="600"
               height="600"
-              alt="Hero"
+              alt="Art Code - 3D Models and AR Platform"
               className="mx-auto aspect-square overflow-hidden rounded-xl object-cover sm:w-full lg:order-last"
-              data-ai-hint="augmented reality abstract"
+              priority
             />
           </div>
         </div>

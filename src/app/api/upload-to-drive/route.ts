@@ -42,16 +42,19 @@ export async function POST(request: NextRequest) {
         const decodedKey = Buffer.from(serviceAccountKey, 'base64').toString('utf-8');
         credentials = JSON.parse(decodedKey);
       } catch (base64Error) {
-        console.error('JSON parsing error:', jsonError.message);
-        console.error('Base64 parsing error:', base64Error.message);
+        const jsonErrorMsg = jsonError instanceof Error ? jsonError.message : 'Unknown JSON error';
+        const base64ErrorMsg = base64Error instanceof Error ? base64Error.message : 'Unknown base64 error';
+        
+        console.error('JSON parsing error:', jsonErrorMsg);
+        console.error('Base64 parsing error:', base64ErrorMsg);
         console.error('Service account key starts with:', serviceAccountKey.substring(0, 100) + '...');
         
         return NextResponse.json(
           { 
             success: false, 
-            error: `Invalid service account key format. Error: ${jsonError.message}. Make sure the JSON is properly formatted and all newlines are escaped as \\n`,
+            error: `Invalid service account key format. Error: ${jsonErrorMsg}. Make sure the JSON is properly formatted and all newlines are escaped as \\n`,
             debug: {
-              jsonError: jsonError.message,
+              jsonError: jsonErrorMsg,
               keyStart: serviceAccountKey.substring(0, 50) + '...',
               keyLength: serviceAccountKey.length
             }
