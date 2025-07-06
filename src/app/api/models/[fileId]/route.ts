@@ -11,22 +11,32 @@ export async function GET(
     const fileId = resolvedParams.fileId;
     console.log('📁 FileId:', fileId);
     
-    const apiKey = GoogleDriveConfig.getApiKey();
+    // Get API key directly from environment variable for server-side use
+    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_DRIVE_API_KEY;
     console.log('🔑 API Key configured:', !!apiKey);
+    console.log('🔑 API Key length:', apiKey?.length || 0);
     
     if (!apiKey) {
       console.error('❌ No API key configured');
+      console.error('Available env vars:', Object.keys(process.env).filter(key => key.includes('GOOGLE')));
       return NextResponse.json({ error: 'API key not configured' }, { status: 500 });
     }
     
     // Fetch the file from Google Drive using the proper API endpoint
     const driveUrl = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&key=${apiKey}`;
+    console.log('🌐 Fetching from URL:', driveUrl.replace(apiKey, 'API_KEY_HIDDEN'));
     
     const response = await fetch(driveUrl);
+    console.log('📊 Google Drive response status:', response.status);
     
     if (!response.ok) {
-      console.error('Failed to fetch from Google Drive:', response.status);
-      return NextResponse.json({ error: 'Failed to fetch model' }, { status: response.status });
+      const errorText = await response.text();
+      console.error('❌ Failed to fetch from Google Drive:', response.status, errorText);
+      return NextResponse.json({ 
+        error: 'Failed to fetch model', 
+        status: response.status,
+        details: errorText 
+      }, { status: response.status });
     }
     
     // Get the file content
