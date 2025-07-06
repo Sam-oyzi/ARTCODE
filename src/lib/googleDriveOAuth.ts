@@ -121,7 +121,7 @@ export class GoogleDriveOAuth {
 
       if (this.accessToken) {
         console.log('🔑 Using existing access token');
-        return this.accessToken;
+        return this.accessToken!;
       }
 
       console.log('🔑 Requesting new access token...');

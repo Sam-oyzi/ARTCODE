@@ -97,7 +97,7 @@ export class GoogleDriveOAuthAlternative {
 
       if (this.accessToken) {
         console.log('🔑 Using existing access token');
-        return this.accessToken;
+        return this.accessToken!;
       }
 
       console.log('🔑 Requesting new access token (Alternative)...');
@@ -117,7 +117,7 @@ export class GoogleDriveOAuthAlternative {
       }
 
       console.log('✅ Access token obtained successfully (Alternative)');
-      return this.accessToken;
+      return this.accessToken!;
 
     } catch (error) {
       console.error('❌ Failed to get access token (Alternative):', error);

@@ -52,7 +52,7 @@ export class GoogleDriveServiceAccount {
    */
   private static async getAccessToken(): Promise<string> {
     if (this.accessToken && Date.now() < this.tokenExpiry) {
-      return this.accessToken;
+      return this.accessToken!;
     }
 
     // This should be done server-side for security
