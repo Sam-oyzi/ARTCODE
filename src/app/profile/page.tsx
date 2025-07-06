@@ -197,7 +197,9 @@ export default function ProfilePage() {
     };
     api.on("select", onSelect);
     onSelect();
-    return () => api.off("select", onSelect);
+    return () => {
+      api.off("select", onSelect);
+    };
   }, [api]);
 
   const handleApply = async () => {
