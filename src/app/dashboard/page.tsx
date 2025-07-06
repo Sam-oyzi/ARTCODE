@@ -116,7 +116,8 @@ export default function DashboardPage() {
       }
     } catch (error) {
       console.error('❌ Error loading user models:', error);
-      setError(`Failed to load models: ${error.message}`);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      setError(`Failed to load models: ${errorMessage}`);
     } finally {
       setLoading(false);
     }

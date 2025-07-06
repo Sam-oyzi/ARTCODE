@@ -1,9 +1,14 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Cpu, QrCode, Shirt, Sparkles } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import home1Image from '@/assets/home1.jpg';
+import { useAuth } from '@/context/auth-context';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 const features = [
   {
@@ -24,6 +29,21 @@ const features = [
 ];
 
 export default function LandingPage() {
+  const { user } = useAuth();
+  const router = useRouter();
+
+  // Redirect authenticated users to dashboard
+  useEffect(() => {
+    if (user) {
+      router.push('/dashboard');
+    }
+  }, [user, router]);
+
+  // Don't render landing page for authenticated users
+  if (user) {
+    return null; // or a loading spinner
+  }
+
   return (
     <div className="flex flex-1 flex-col">
       <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">

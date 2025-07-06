@@ -133,7 +133,7 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
     }, []);
 
     return (
-        <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
+        <div className="grid min-h-screen w-full md:grid-cols-[180px_1fr] lg:grid-cols-[200px_1fr]">
             <div className="hidden border-r bg-muted/40 md:block">
                 <div className="flex h-full max-h-screen flex-col gap-2">
                     <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
@@ -160,7 +160,7 @@ function AppShellContent({ children }: { children: React.ReactNode }) {
                                 <span className="sr-only">Toggle navigation menu</span>
                             </Button>
                         </SheetTrigger>
-                        <SheetContent side="left" className="flex flex-col p-0">
+                        <SheetContent side="left" className="flex flex-col p-0 w-[200px] sm:w-[240px]">
                             <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
                            <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
                                 <Link href={homeHref} className="flex items-center gap-2 font-semibold">
