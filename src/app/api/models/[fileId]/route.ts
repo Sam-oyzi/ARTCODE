@@ -3,11 +3,12 @@ import { GoogleDriveConfig } from '@/lib/googleDriveConfig';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ fileId: string }> }
+  context: { params: Promise<{ fileId: string }> }
 ) {
   console.log('🔥 Models API route called');
   try {
-    const { fileId } = await params;
+    const resolvedParams = await context.params;
+    const fileId = resolvedParams.fileId;
     console.log('📁 FileId:', fileId);
     
     const apiKey = GoogleDriveConfig.getApiKey();

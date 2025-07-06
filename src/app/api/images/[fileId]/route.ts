@@ -4,10 +4,11 @@ import { GoogleAuth } from 'google-auth-library';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ fileId: string }> }
+  context: { params: Promise<{ fileId: string }> }
 ) {
   try {
-    const { fileId } = await params;
+    const resolvedParams = await context.params;
+    const fileId = resolvedParams.fileId;
 
     // First try to get from local storage
     const fileData = LocalFileStorage.getFile(fileId);
