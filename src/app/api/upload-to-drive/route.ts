@@ -185,10 +185,11 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('❌ Server-side upload failed:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
     return NextResponse.json(
       { 
         success: false, 
-        error: error.message,
+        error: errorMessage,
         fallback: 'local-storage'
       },
       { status: 500 }
