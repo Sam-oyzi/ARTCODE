@@ -15,6 +15,10 @@ declare global {
           discoveryDocs: string[];
         }) => Promise<void>;
       };
+      auth2: {
+        init: (config: { client_id: string; scope: string }) => Promise<any>;
+        getAuthInstance: () => any;
+      };
     };
   }
 }

@@ -1,21 +1,5 @@
 import { GoogleDriveConfig } from './googleDriveConfig';
 
-// Extend the global Window interface to include gapi with auth2
-declare global {
-  interface Window {
-    gapi: {
-      load: (api: string, callback: () => void) => void;
-      client: {
-        init: (config: { apiKey: string; discoveryDocs: string[]; }) => Promise<void>;
-      };
-      auth2: {
-        init: (config: { client_id: string; scope: string }) => Promise<any>;
-        getAuthInstance: () => any;
-      };
-    };
-  }
-}
-
 export interface UploadResult {
   success: boolean;
   fileId?: string;
