@@ -215,10 +215,10 @@ export default function ProfilePage() {
     
     try {
       await assignModelToQr(userQrCode.id, modelToAssign.name);
-      toast({
-        title: "Success!",
-        description: `Model "${modelToAssign.name}" assigned to your QR code.`,
-      });
+    toast({
+      title: "Success!",
+      description: `Model "${modelToAssign.name}" assigned to your QR code.`,
+    });
     } catch (error) {
       console.error('Error assigning model:', error);
       toast({

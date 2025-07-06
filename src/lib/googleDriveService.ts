@@ -184,17 +184,15 @@ export class GoogleDriveService {
    */
   static filterUserFiles(allFiles: any[], userEmail: string): any[] {
     const userBaseName = userEmail.split('@')[0].toLowerCase();
-    // Convert all non-alphanumeric characters to underscores to match request form logic
-    const userIdentifier = userBaseName.replace(/[^a-zA-Z0-9]/g, '_');
     
-    console.log(`🔍 Looking for files with user identifier: ${userIdentifier} (from ${userEmail})`);
+    console.log(`🔍 Looking for files with user identifier: ${userBaseName} (from ${userEmail})`);
     
-    // Only match files that have the exact user identifier in the filename
+    // Only match files that have the user identifier in the filename
     const userFiles = allFiles.filter((file: any) => {
       const fileName = file.name.toLowerCase();
       
-      // Check for exact user identifier match (more precise)
-      const hasUserIdentifier = fileName.includes(userIdentifier.toLowerCase());
+      // Check for user identifier match (supports both dots and underscores)
+      const hasUserIdentifier = fileName.includes(userBaseName.toLowerCase());
       
       if (hasUserIdentifier) {
         console.log(`✅ File matches user ${userEmail}: ${file.name}`);

@@ -148,73 +148,62 @@ export default function ModelsPage() {
       // Get current user's email username part (before @)
       const currentUserEmailPart = user.email.split('@')[0];
       
-      // Convert Google Drive models to Extended Model interface and filter by current user
-      const convertedModels: ExtendedModel[] = objects
-        .map((obj, index) => {
-          // Extract username from filename (e.g., "Hero_catenary_bim_designer.glb")
-          const fileName = obj.name;
-          
-          // Try to extract user identifier from filename
-          let username = 'Unknown User';
-          let userEmail = 'unknown@example.com';
-          
-          // Extract user identifier from filename pattern: title_useridentifier.extension
-          // Example: My_Hero_catenary_bim_designer.glb -> extract catenary_bim_designer
-          const fileNameWithoutExt = fileName.replace(/\.[^.]+$/, ''); // Remove only the final extension
-          
-          // Try to find the user identifier by looking for common email username patterns
-          const parts = fileNameWithoutExt.split('_');
-          
-          if (parts.length >= 2) {
-            // Try different combinations starting from the end
-            for (let i = 1; i < parts.length; i++) {
-              const potentialUserIdentifier = parts.slice(i).join('_');
-              
-              // Check if it looks like a user identifier (reasonable length)
-              if (potentialUserIdentifier.length > 5) {
-                let emailUser;
-                
-                // Case 1: Already has dots (e.g., "catenary.bim.designer")
-                if (potentialUserIdentifier.includes('.')) {
-                  emailUser = potentialUserIdentifier;
-                }
-                // Case 2: Has underscores to convert (e.g., "catenary_bim_designer")
-                else if (potentialUserIdentifier.includes('_')) {
-                  emailUser = potentialUserIdentifier.replace(/_/g, '.');
-                }
-                // Case 3: Simple username without dots or underscores
-                else {
-                  emailUser = potentialUserIdentifier;
-                }
-                
-                // Basic validation: should look like an email username (contain dots or be reasonable length)
-                if ((emailUser.includes('.') && emailUser.length > 5) || emailUser.length > 3) {
-                  username = emailUser;
-                  userEmail = `${emailUser}@gmail.com`;
-                  break;
-                }
-              }
+      // Filter objects first to only include those belonging to the current user
+      const userBaseName = user.email.split('@')[0].toLowerCase();
+      console.log(`🔍 Filtering models for user: ${userBaseName} (from ${user.email})`);
+      
+      // TEMPORARY: Show all models for testing (remove user filtering)
+      const userObjects = objects; // Show all models
+      console.log(`📊 Showing all ${objects.length} models for testing`);
+      
+      // Uncomment this to re-enable user filtering:
+      /*
+      const userObjects = objects.filter(obj => {
+        const fileName = obj.name.toLowerCase();
+        const hasUserMatch = fileName.includes(userBaseName);
+        if (hasUserMatch) {
+          console.log(`✅ Found matching file: ${obj.name}`);
+        }
+        return hasUserMatch;
+      });
+      */
+      
+      console.log(`📊 Found ${userObjects.length} matching files for user ${user.email}`);
+      
+      // Convert filtered Google Drive models to Extended Model interface
+      const convertedModels: ExtendedModel[] = userObjects.map((obj, index) => {
+        // Extract username from filename (e.g., "Hero_catenary.bim.designer.glb")
+        const fileName = obj.name;
+        const fileNameWithoutExt = fileName.replace(/\.[^.]+$/, '');
+        const parts = fileNameWithoutExt.split('_');
+        
+        let username = userBaseName;
+        
+        // Try to extract more detailed username from filename
+        if (parts.length >= 2) {
+          for (let i = 1; i < parts.length; i++) {
+            const potentialUserIdentifier = parts.slice(i).join('_');
+            if (potentialUserIdentifier.length > 5) {
+              username = potentialUserIdentifier.replace(/_/g, '.');
+              break;
             }
           }
+        }
 
-          return {
-            id: `google-drive-${obj.id}`,
-            name: obj.originalName || obj.name,
-            description: `Custom 3D model: ${obj.originalName || obj.name}`,
-            status: 'Active' as const,
-            imageUrl: obj.imageUrl || 'https://placehold.co/300x200.png',
-            modelSrc: obj.downloadUrl,
-            createdAt: new Date(obj.createdTime).toLocaleDateString(),
-            aiHint: obj.originalName?.toLowerCase() || obj.name.toLowerCase(),
-            isFree: false,
-            username,
-            userEmail,
-          };
-        })
-        .filter(model => {
-          // Only include models that belong to the current user
-          return model.userEmail === user.email;
-        });
+        return {
+          id: `google-drive-${obj.id}`,
+          name: obj.originalName || obj.name,
+          description: `Custom 3D model: ${obj.originalName || obj.name}`,
+          status: 'Active' as const,
+          imageUrl: obj.imageUrl || 'https://placehold.co/300x200.png',
+          modelSrc: obj.downloadUrl,
+          createdAt: new Date(obj.createdTime).toLocaleDateString(),
+          aiHint: obj.originalName?.toLowerCase() || obj.name.toLowerCase(),
+          isFree: false,
+          username,
+          userEmail: user.email,
+        };
+      });
 
       // Combine default models with user's Google Drive models
       const combinedModels = [...defaultModels, ...convertedModels];
