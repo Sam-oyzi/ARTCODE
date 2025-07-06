@@ -6,9 +6,13 @@ export async function GET(
   context: { params: Promise<{ fileId: string }> }
 ) {
   console.log('🔥 Models API route called');
+  console.log('🔍 Request URL:', request.url);
+  console.log('🔍 Context params:', context);
+  
   try {
     const resolvedParams = await context.params;
     const fileId = resolvedParams.fileId;
+    console.log('🔍 Resolved params:', resolvedParams);
     console.log('📁 FileId:', fileId);
     
     // Get API key directly from environment variable for server-side use
