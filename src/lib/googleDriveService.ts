@@ -77,7 +77,7 @@ export class GoogleDriveService {
       
     } catch (error) {
       console.error('❌ Error uploading image:', error);
-      return { success: false, error: error.message || 'Upload failed' };
+      return { success: false, error: error instanceof Error ? error.message : 'Upload failed' };
     }
   }
 
