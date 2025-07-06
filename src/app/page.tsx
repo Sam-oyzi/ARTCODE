@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Cpu, QrCode, Shirt, Sparkles } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import home1Image from '@/assets/home1.jpg';
+import home1Image from '@/assets/home1.png';
 import { useAuth } from '@/context/auth-context';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
