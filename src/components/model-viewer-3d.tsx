@@ -106,7 +106,7 @@ const Model3DViewer: React.FC<Model3DViewerProps> = ({ modelUrl, alt, className,
       className={className}
       style={{ width: '100%', height: '400px', ...style }}
       onLoad={() => console.log('✅ 3D model loaded successfully')}
-      onError={(e) => {
+      onError={(e: Event) => {
         console.error('❌ 3D model failed to load:', e);
         setError('Failed to load 3D model');
       }}
