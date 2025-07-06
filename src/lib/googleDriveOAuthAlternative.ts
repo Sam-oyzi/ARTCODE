@@ -42,9 +42,8 @@ export class GoogleDriveOAuthAlternative {
 
       // Initialize gapi client
       await new Promise<void>((resolve, reject) => {
-        window.gapi.load('auth2', {
-          callback: resolve,
-          onerror: () => reject(new Error('Failed to load auth2 library'))
+        window.gapi.load('auth2', () => {
+          resolve();
         });
       });
 
@@ -200,10 +199,11 @@ export class GoogleDriveOAuthAlternative {
 
     } catch (error) {
       console.error('❌ File upload failed:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
       return {
         success: false,
         fileName: fileName,
-        error: error.message
+        error: errorMessage
       };
     }
   }
@@ -290,9 +290,10 @@ export class GoogleDriveOAuthAlternative {
 
     } catch (error) {
       console.error('❌ Connection test failed (Alternative):', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
       return {
         connected: false,
-        message: `Connection failed: ${error.message}`
+        message: `Connection failed: ${errorMessage}`
       };
     }
   }
