@@ -201,7 +201,7 @@ export default function ModelsPage() {
           aiHint: obj.originalName?.toLowerCase() || obj.name.toLowerCase(),
           isFree: false,
           username,
-          userEmail: user.email,
+          userEmail: user.email || undefined,
         };
       });
 
