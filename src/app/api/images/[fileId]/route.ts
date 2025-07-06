@@ -13,8 +13,8 @@ export async function GET(
     const fileData = LocalFileStorage.getFile(fileId);
     
     if (fileData) {
-      // Convert base64 back to buffer
-      const buffer = Buffer.from(fileData.data, 'base64');
+      // Data is already a Buffer from fs.readFileSync
+      const buffer = fileData.data;
 
       // Return the image with appropriate headers
       return new NextResponse(buffer, {
