@@ -116,9 +116,10 @@ export function PhotoUploadTest() {
 
     } catch (error) {
       console.error("Upload test failed:", error);
+      const errorMessage = error instanceof Error ? error.message : "Could not test upload functionality.";
       toast({
         title: "Upload Test Failed",
-        description: error.message || "Could not test upload functionality.",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
