@@ -10,6 +10,7 @@ import { useAuth } from "@/context/auth-context";
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { ImageUploadService } from '@/lib/imageUploadService';
+import { buildApiUrl } from '@/lib/utils';
 
 import { Button } from "@/components/ui/button";
 import {
@@ -98,7 +99,7 @@ export function RequestForm() {
         uploadFormData.append('fileName', fileName);
         uploadFormData.append('folderId', '1IgZTNiLsDSQL5wEUNbGim1Rcc6Y33kzL'); // USER_REQUESTS folder
         
-        const response = await fetch('/api/upload-to-drive', {
+        const response = await fetch(buildApiUrl('/api/upload-to-drive'), {
           method: 'POST',
           body: uploadFormData
         });

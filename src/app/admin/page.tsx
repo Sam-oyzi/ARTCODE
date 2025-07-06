@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 
 
 import { GoogleDriveConfig } from "@/lib/googleDriveConfig";
+import { buildApiUrl } from '@/lib/utils';
 
 
 const ADMIN_EMAILS = [
@@ -148,7 +149,7 @@ export default function AdminPage() {
                 formData.append('folderId', GoogleDriveConfig.FOLDERS.USER_REQUESTS);
                 
                 // Call server-side API
-                const response = await fetch('/api/upload-to-drive', {
+                const response = await fetch(buildApiUrl('/api/upload-to-drive'), {
                     method: 'POST',
                     body: formData
                 });

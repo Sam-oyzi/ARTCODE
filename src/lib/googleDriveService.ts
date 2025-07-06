@@ -1,4 +1,5 @@
 import { GoogleDriveConfig } from './googleDriveConfig';
+import { getBaseUrl, buildApiUrl } from './utils';
 
 export class GoogleDriveService {
   static readonly FOLDERS = GoogleDriveConfig.FOLDERS;
@@ -9,7 +10,7 @@ export class GoogleDriveService {
    * This is the key to making 3D models load properly (avoids CORS issues)
    */
   static getDirectDownloadUrl(fileId: string, filename?: string): string {
-    const baseUrl = `/api/models/${fileId}`;
+    const baseUrl = `${getBaseUrl()}/api/models/${fileId}`;
     return filename ? `${baseUrl}?filename=${encodeURIComponent(filename)}` : baseUrl;
   }
 
@@ -18,7 +19,7 @@ export class GoogleDriveService {
    * Uses our API route to avoid CORS and Next.js hostname issues
    */
   static getDirectImageUrl(fileId: string, filename?: string): string {
-    const baseUrl = `/api/images/${fileId}`;
+    const baseUrl = `${getBaseUrl()}/api/images/${fileId}`;
     return filename ? `${baseUrl}?filename=${encodeURIComponent(filename)}` : baseUrl;
   }
 
@@ -55,7 +56,7 @@ export class GoogleDriveService {
       formData.append('description', description);
 
       // Upload via our server-side API route
-      const response = await fetch('/api/upload-image', {
+      const response = await fetch(buildApiUrl('/api/upload-image'), {
         method: 'POST',
         body: formData
       });

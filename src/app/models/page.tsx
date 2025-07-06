@@ -48,6 +48,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Separator } from '@/components/ui/separator';
 import { GoogleDriveService } from '@/lib/googleDriveService';
 import { useAuth } from '@/context/auth-context';
+import { debugEnvironment } from '@/lib/utils';
 
 
 const ModelViewer = dynamic(() => import('@/components/model-viewer'), {
@@ -235,6 +236,9 @@ export default function ModelsPage() {
 
   // Load models on component mount and when user changes
   useEffect(() => {
+    // Debug environment info
+    debugEnvironment();
+    
     loadUserGoogleDriveModels();
   }, [user]);
 

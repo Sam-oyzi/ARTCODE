@@ -3,6 +3,8 @@
  * This allows server-side uploads without user authentication
  */
 
+import { buildApiUrl } from './utils';
+
 export interface ServiceAccountConfig {
   projectId: string;
   privateKeyId: string;
@@ -60,21 +62,24 @@ export class GoogleDriveServiceAccount {
   }
 
   /**
-   * Upload file using service account (server-side only)
+   * Upload a file to Google Drive using Service Account
    */
   static async uploadFile(
     file: File,
-    fileName: string,
-    folderId: string
-  ): Promise<UploadResult> {
+    userEmail: string,
+    requestId: string,
+    description: string
+  ): Promise<{ success: boolean; fileId?: string; error?: string }> {
     try {
-      // This would be called via API route
+      // Create form data for the API request
       const formData = new FormData();
       formData.append('file', file);
-      formData.append('fileName', fileName);
-      formData.append('folderId', folderId);
+      formData.append('userEmail', userEmail);
+      formData.append('requestId', requestId);
+      formData.append('description', description);
 
-      const response = await fetch('/api/upload-to-drive', {
+      // Upload via our server-side API route
+      const response = await fetch(buildApiUrl('/api/upload-to-drive'), {
         method: 'POST',
         body: formData
       });
@@ -90,7 +95,7 @@ export class GoogleDriveServiceAccount {
       console.error('Service account upload failed:', error);
       return {
         success: false,
-        fileName: fileName,
+        fileName: file.name, // Assuming file name is available for error reporting
         error: error instanceof Error ? error.message : 'Upload failed'
       };
     }
