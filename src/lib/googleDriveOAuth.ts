@@ -242,10 +242,11 @@ export class GoogleDriveOAuth {
 
     } catch (error) {
       console.error('❌ File upload failed:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
       return {
         success: false,
         fileName: fileName,
-        error: error.message
+        error: errorMessage
       };
     }
   }
@@ -336,10 +337,11 @@ export class GoogleDriveOAuth {
 
       } catch (error) {
         console.error(`❌ Failed to upload image ${i + 1}:`, error);
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
         results.push({
           success: false,
           fileName: files[i].name,
-          error: error.message
+          error: errorMessage
         });
         failed++;
       }
@@ -408,9 +410,10 @@ export class GoogleDriveOAuth {
 
     } catch (error) {
       console.error('❌ Connection test failed:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
       return {
         connected: false,
-        message: `Connection failed: ${error.message}`
+        message: `Connection failed: ${errorMessage}`
       };
     }
   }
