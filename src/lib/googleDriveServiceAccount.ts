@@ -91,7 +91,7 @@ export class GoogleDriveServiceAccount {
       return {
         success: false,
         fileName: fileName,
-        error: error.message
+        error: error instanceof Error ? error.message : 'Upload failed'
       };
     }
   }

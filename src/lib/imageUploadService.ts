@@ -181,7 +181,7 @@ export class ImageUploadService {
     } catch (error) {
       return {
         ready: false,
-        message: `System test failed: ${error.message}`
+        message: `System test failed: ${error instanceof Error ? error.message : 'Unknown error'}`
       };
     }
   }
