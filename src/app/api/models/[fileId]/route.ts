@@ -5,11 +5,16 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ fileId: string }> }
 ) {
+  console.log('🔥 Models API route called');
   try {
     const { fileId } = await params;
+    console.log('📁 FileId:', fileId);
+    
     const apiKey = GoogleDriveConfig.getApiKey();
+    console.log('🔑 API Key configured:', !!apiKey);
     
     if (!apiKey) {
+      console.error('❌ No API key configured');
       return NextResponse.json({ error: 'API key not configured' }, { status: 500 });
     }
     
