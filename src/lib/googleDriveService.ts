@@ -5,25 +5,29 @@ export class GoogleDriveService {
   static readonly DRIVE_API_BASE = GoogleDriveConfig.API_CONFIG.BASE_URL;
 
   /**
-   * CRITICAL: Convert Google Drive file ID to proxy download URL
-   * This is the key to making 3D models load properly (avoids CORS issues)
+   * Create a direct download URL for a file
+   * @param fileId - The Google Drive file ID
+   * @param filename - Optional filename for the download
+   * @returns Direct download URL
    */
   static getDirectDownloadUrl(fileId: string, filename?: string): string {
-    const baseUrl = `/api/models/${fileId}`;
-    return filename ? `${baseUrl}?filename=${encodeURIComponent(filename)}` : baseUrl;
+    const baseUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
+    return filename ? `${baseUrl}&filename=${encodeURIComponent(filename)}` : baseUrl;
   }
 
   /**
-   * CRITICAL: Convert Google Drive file ID to proxy image URL
-   * Uses our API route to avoid CORS and Next.js hostname issues
+   * Create a direct image URL for displaying images
+   * @param fileId - The Google Drive file ID
+   * @param filename - Optional filename for the image
+   * @returns Direct image URL
    */
   static getDirectImageUrl(fileId: string, filename?: string): string {
-    const baseUrl = `/api/images/${fileId}`;
-    return filename ? `${baseUrl}?filename=${encodeURIComponent(filename)}` : baseUrl;
+    // For images, we can use the direct view URL
+    return `https://drive.google.com/uc?export=view&id=${fileId}`;
   }
 
   /**
-   * Check if URL is a Google Drive URL
+   * Check if a URL is a Google Drive URL
    */
   static isGoogleDriveUrl(url: string): boolean {
     return url.includes('drive.google.com');
@@ -35,13 +39,6 @@ export class GoogleDriveService {
   static extractFileId(url: string): string | null {
     const match = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
     return match ? match[1] : null;
-  }
-
-  /**
-   * Test connection to Google Drive API
-   */
-  static async testConnection(): Promise<{ connected: boolean; message: string }> {
-    return await GoogleDriveConfig.testConnection();
   }
 
   /**
