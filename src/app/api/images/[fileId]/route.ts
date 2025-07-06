@@ -44,7 +44,7 @@ export async function GET(
             const decodedKey = Buffer.from(serviceAccountKey, 'base64').toString('utf-8');
             credentials = JSON.parse(decodedKey);
           } catch (base64Error) {
-            console.error('Failed to parse service account key:', jsonError.message);
+            console.error('Failed to parse service account key:', jsonError instanceof Error ? jsonError.message : 'Unknown error');
             throw new Error('Invalid service account configuration');
           }
         }
